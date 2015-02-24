@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Tomcat 开发Comet实例 -  - ITeye技术网站</title>
+    <meta name="description" content="1.Tomcat6&amp;Comet的简要介绍       Comet技术的悄然流行，Jetty在比较早地支持了Comet，提供了Comet 的Servlet，同样从Tomcat6开始，Comet已经在Tomcat的标准Servlet中开始支持了，这是个好事情，毕竟我们有越来越多的选择了。     可喜的是Comet技术，已经定义在Servlet3.0规范中，到时候，我们代码的移植性更好了。    ..." />
+    <meta name="keywords" content=" Java综合 Tomcat 开发Comet实例" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="search" type="application/opensearchdescription+xml" href="/open_search.xml" title="ITeye" />
+    <link href="/rss" rel="alternate" title="" type="application/rss+xml" />
+    <link href="http://www.iteye.com/stylesheets/blog.css?1307072280" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.iteye.com/stylesheets/themes/blog/blue.css?1299226978" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://js.iteye.com/javascripts/application.js?1307071945" type="text/javascript"></script>
+      
+  <link href="http://www.iteye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1299226978" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.iteye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1299226978" type="text/javascript"></script>
+<script src="http://www.iteye.com/javascripts/hotkey.js?1299226978" type="text/javascript"></script>
+  <script src="http://www.iteye.com/javascripts/code_favorites.js?1306912746" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.iteye.com/javascripts/editor/css/ui.css?1299226978" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.iteye.com/javascripts/editor/compress.js?1302577958" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">新闻</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/job">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.iteye.com/groups">群组</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://www.iteye.com/all" style="color:red">我的应用</a>
+    <a href="/login">登录</a>
+    <a href="/signup" class="nobg">注册</a>
+  </div>
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">tomyz0223</a></h1></div>
+        <div id="blog_preview">
+          
+        </div>
+        <div id="blog_domain">永久域名 <a href="/">http://tomyz0223.iteye.com</a></div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div class="blog_nav">
+    
+    <div class="pre_next">
+      <a href="/blog/690533" class="next" title="Linux常用命令备忘录">Linux常用命令备忘录</a>
+      |
+      <a href="/blog/682187" class="pre" title="负载均衡技术全攻略（转）">负载均衡技术全攻略（转）</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2010</span><span class='sep_year'>-</span><span class='month'>06</span><span class='sep_month'>-</span><span class='day'>04</span></div>
+    <h3><a href="/blog/684252">Tomcat 开发Comet实例</a></h3>
+                <strong>文章分类:<a href="http://www.iteye.com/blogs/category/java" style="text-decoration:none;padding-right:10px;">Java编程</a></strong>    
+  </div>
+
+  <div class="blog_content">
+    <p><strong>1.Tomcat6&amp;Comet的简要介绍</strong>
+</p>
+<p> </p>
+<p>Comet技术的悄然流行，Jetty在比较早地支持了Comet，提供了Comet 的Servlet，同样从Tomcat6开始，Comet已经在Tomcat的标准Servlet中开始支持了，这是个好事情，毕竟我们有越来越多的选择了。</p>
+<p> </p>
+<p>可喜的是Comet技术，已经定义在Servlet3.0规范中，到时候，我们代码的移植性更好了。</p>
+<p> </p>
+<p>可惜的是Tomcat提供了几个Sample都不能运行，在这里需要批评一下Tomcat的开发者们了，笔者花了几天看了那个实例代码，代码写得确实有点问题，大量的同步关键字，本身其实用一个简单的例子说明就可以了，何必杀鸡用牛刀。</p>
+<p> </p>
+<p>Tomcat的comet原理其实同样很简单，它无非就是做了一件事情，它允许servlet执行完毕后的response没有被回收，我们只要拿到这个Reponse的引用并保存起来，就可以随时从Server向Client端Push数据了。</p>
+<p> </p>
+<p>Tomcat提供了CometProcessor接口，有这种特定标记的Servlet，Tomcat会做特殊处理，Tomcat不会把它当做普通Servlet实行完毕后，会回收request和response。</p>
+<p><strong><br></strong>
+</p>
+<p><strong>2.实战</strong>
+</p>
+<p> </p>
+<p>本文实现了一个server 定时push一个随机数到client端，此例查询了大量的实例，经过笔者验证，在IE和FireFox下都可以运行。</p>
+<p> </p>
+<p>运行此例，需要下面配置：</p>
+<p> </p>
+<p><strong>1） Tomcat要求支持Comet，必须使用NIO或者APR的方式，因此，修改Tomcat/conf/server.xml</strong>
+</p>
+<p>    &lt;Connector port="9000" executor="tomcatThreadPool"  protocol="org.apache.coyote.http11.Http11NioProtocol"  <br>
+               connectionTimeout="20000"  maxThreads="150"<br>
+               redirectPort="8443"  maxKeepAliveRequests="1"/&gt;</p>
+<p> </p>
+<p><strong>2）Tomcat版本要求6.0.16以上，最好使用最新的版本</strong>
+</p>
+<p> </p>
+<p><strong>3） 修改附件中源码里面的web目录下的comet-compatible.jsp文件，把里面涉及IP和端口的url，改成你机器的ip地址和端口</strong>
+</p>
+<p> </p>
+<p><strong>4） 测试运行：http://ip:port/contextName/comet-compatible.jsp</strong>
+</p>
+<p> </p>
+<p>请耐心等数秒钟，随机数开始从server push到client端了</p>
+<p> </p>
+<p> </p>
+<p>源码见附件,附件的URL如下：</p>
+<p> </p>
+<p>http://dl.iteye.com/topics/download/ee28df9d-d838-3572-be73-dbf06c11080f</p>
+<p> </p>
+<p>注：作者本着负责的态度，让大家更快的学习新东西，欢迎大家有问题，给我留言，我一定及时回复</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+  </div>
+
+  
+  <div class="attachments">
+    
+      
+        <ul>
+          <li><a href="http://dl.iteye.com/topics/download/ee28df9d-d838-3572-be73-dbf06c11080f">WeatherServer.zip</a> (413.8 KB)</li>
+          
+          <li>下载次数: 1170</li>
+        </ul>
+      
+    
+    
+  </div>
+
+
+  <script type="text/javascript"><!--
+google_ad_client = "pub-1076724771190722";
+/* JE个人博客468x60 */
+google_ad_slot = "5506163105";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+  
+  
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="/blog/690533" class="next" title="Linux常用命令备忘录">Linux常用命令备忘录</a>
+      |
+      <a href="/blog/682187" class="pre" title="负载均衡技术全攻略（转）">负载均衡技术全攻略（转）</a>
+    </div>
+  </div>
+
+  <div class="blog_bottom">
+    <ul>
+      <li>16:55</li>
+      <li>浏览 (2479)</li>
+            <li><a href="#comments">评论</a> (10)</li>
+      <li>分类: <a href="/category/97514">分布式开发</a></li>
+      
+      
+            
+      <li class='last'><a href="http://www.iteye.com/wiki/topic/684252" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc1824398">
+  <div class="comment_title">
+    10 楼
+    <a href='http://wzxf536.iteye.com' target='_blank'>wzxf536</a>
+    2010-12-29&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1824398);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">博主，我现在android系统上需要用到这个东西，希望能交流下，看见回我Email:wzxf536#163.com #改成@就可以了，谢谢~</div>
+</div>
+<div id="bc1799560">
+  <div class="comment_title">
+    9 楼
+    <a href='http://yicw.iteye.com' target='_blank'>yicw</a>
+    2010-12-12&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1799560);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">这个例子在IE下跑不起来，把comet-compatible.jsp中第30行改成：<br />comet.connection.write("&lt;script&gt;document.domain = '"+document.domain+"'");<br />就可以了。</div>
+</div>
+<div id="bc1674482">
+  <div class="comment_title">
+    8 楼
+    <a href='http://yangcaifeng-14.iteye.com' target='_blank'>yangcaifeng_14</a>
+    2010-09-16&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1674482);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">yangcaifeng_14 写道</div><div class="quote_div">我引用了如下包，可以跑起来了<br />catalina-6.0.20.jar<br />jdom.jar<br />org.apache.felix.http.bundle-2.0.2.jar<br />rome-1.0RC2.jar<br />servlet-api.jar</div><br /><img src="/images/smiles/icon_sad.gif"/> <br />AsyncContext async = request.startAsync(request, response)没起作用</div>
+</div>
+<div id="bc1674409">
+  <div class="comment_title">
+    7 楼
+    <a href='http://yangcaifeng-14.iteye.com' target='_blank'>yangcaifeng_14</a>
+    2010-09-16&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1674409);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">我引用了如下包，可以跑起来了<br />catalina-6.0.20.jar<br />jdom.jar<br />org.apache.felix.http.bundle-2.0.2.jar<br />rome-1.0RC2.jar<br />servlet-api.jar</div>
+</div>
+<div id="bc1674396">
+  <div class="comment_title">
+    6 楼
+    <a href='http://yangcaifeng-14.iteye.com' target='_blank'>yangcaifeng_14</a>
+    2010-09-16&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1674396);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">debbykindom 写道</div><div class="quote_div">本人已经测试过，附件代码基本没有问题，就是有几点要注意。<br />1.修改comet-compatible.jsp中的ip地址，如改为127.0.0.1，端口9000不用改。<br />2.contextPath需设置为“cs”。<br />3.访问时使用http://127.0.0.1:8080/cs/..的形式,不要使用<br />http://localhost:8080/cs/..的形式。<br />但测试时发现有一个问题，首次访问comet-compatible.jsp时一切正常，数据能正常更新，控制台输出亦无异常；然而一旦刷新该页面则会出现NullPointerException,然后页面无数据显示。</div><br />去掉jsp-api.jar可以解决空指针异常</div>
+</div>
+<div id="bc1565969">
+  <div class="comment_title">
+    5 楼
+    <a href='http://anyonefeng.iteye.com' target='_blank'>anyonefeng</a>
+    2010-07-05&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1565969);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">楼主你这个我怎么始终运气不起啊&nbsp;&nbsp;&nbsp; 能不能把你这个项目的源代码发给我谢谢anyonefeng@gmail.com</div>
+</div>
+<div id="bc1546739">
+  <div class="comment_title">
+    4 楼
+    <a href='http://debbykindom.iteye.com' target='_blank'>debbykindom</a>
+    2010-06-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1546739);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">本人已经测试过，附件代码基本没有问题，就是有几点要注意。<br />1.修改comet-compatible.jsp中的ip地址，如改为127.0.0.1，端口9000不用改。<br />2.contextPath需设置为“cs”。<br />3.访问时使用http://127.0.0.1:8080/cs/..的形式,不要使用<br />http://localhost:8080/cs/..的形式。<br />但测试时发现有一个问题，首次访问comet-compatible.jsp时一切正常，数据能正常更新，控制台输出亦无异常；然而一旦刷新该页面则会出现NullPointerException,然后页面无数据显示。</div>
+</div>
+<div id="bc1535903">
+  <div class="comment_title">
+    3 楼
+    <a href='http://matychen.iteye.com' target='_blank'>matychen</a>
+    2010-06-11&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1535903);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">建议楼主整个能编译的，没错误的附件上来，你这样的附件确实比较闹心。。。<img src="/images/smiles/icon_biggrin.gif"/> </div>
+</div>
+<div id="bc1528058">
+  <div class="comment_title">
+    2 楼
+    <a href='http://tomyz0223.iteye.com' target='_blank'>tomyz0223</a>
+    2010-06-06&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1528058);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">依赖的包，包括，tomcat 6/lib目录下的jsp-api.jar,servlet-api.jar,catalina.jar,把这三个包加到你的classpath下面，仍然会有两个类不能编译通过，其实关系不大，因为我在本例中运行的是CometSample这个类，你直接把能编译通过的包直接放到tomcat/webapp下面查看结果就可以了</div>
+</div>
+<div id="bc1527462">
+  <div class="comment_title">
+    1 楼
+    <a href='http://kevinchj.iteye.com' target='_blank'>kevinchj</a>
+    2010-06-06&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1527462);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">非常感谢楼主。请问得用JavaEE6的jar包吗？不然又很多class找不到，如javax.servlet.annotation.WebServlet;等。但是用了JEE6的jar包后，放问jsp页面又有错误。闹心的很，不知道对jar包对有什么要求配置，谢谢</div>
+</div>
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <form action="/blog/684252" id="comment_form" method="post" onsubmit="return false;">          
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+          <p style="text-align:right;padding-right:30px;">您还没有登录，请<a href='/login'>登录</a>后发表评论(快捷键 Alt+S / Ctrl+Enter) <input class="submit" id="quick_reply_button" name="commit" type="submit" value="提交" /></p>
+        </form>
+        <script type="text/javascript">
+          new HotKey("s",function() {$('quick_reply_button').click();},{altKey: true, ctrlKey: false});
+          new HotKey(new Number(13),function() {$('quick_reply_button').click();},{altKey: false, ctrlKey: true});
+
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+    
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+    
+        }});
+        </script>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 1526113;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Post");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'Tomcat 开发Comet实例');
+  });
+  $$('#main .blog_comment > div').each(function(comment){// comment
+    var post_id = comment.id.substr(2);
+    $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+      var location = window.location;
+      source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+      source_url += "#" + comment.id;
+      pre.writeAttribute('codeable_id', post_id);
+      pre.writeAttribute('codeable_type', "Post");
+      pre.writeAttribute('source_url', source_url);
+      pre.writeAttribute('pre_index', index);
+      pre.writeAttribute('title', 'Tomcat 开发Comet实例');
+    });
+  });
+  code_favorites_init();
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://tomyz0223.iteye.com'><img alt="tomyz0223的博客" class="logo" src="http://www.iteye.com/images/user-logo.gif?1301623867" title="tomyz0223的博客: " /></a></div>
+            <div id="blog_owner_name">tomyz0223</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 35500 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.iteye.com/images/icon_minigender_1.gif?1299226978" title="男" /></li>
+              <li>来自: 杭州</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://tiangi.iteye.com' target='_blank'><img alt="tiangi的博客" class="logo" src="http://www.iteye.com/upload/logo/user/42419/53d8d0b2-7f73-44c7-8e20-f50aef8a5083-thumb.gif?1236834326" title="tiangi的博客: tiangi" /></a></div>
+                  <div class="left"><a href='http://tiangi.iteye.com' target='_blank'>tiangi</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://zhimin007.iteye.com' target='_blank'><img alt="zhimin007的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1301623867" title="zhimin007的博客: " /></a></div>
+                  <div class="left"><a href='http://zhimin007.iteye.com' target='_blank'>zhimin007</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://jamesqian.iteye.com' target='_blank'><img alt="JamesQian的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1301623867" title="JamesQian的博客: " /></a></div>
+                  <div class="left"><a href='http://jamesqian.iteye.com' target='_blank'>JamesQian</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://aoliwen521.iteye.com' target='_blank'><img alt="aoliwen521的博客" class="logo" src="http://www.iteye.com/images/user-logo-thumb.gif?1301623867" title="aoliwen521的博客: " /></a></div>
+                  <div class="left"><a href='http://aoliwen521.iteye.com' target='_blank'>aoliwen521</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (147)</a></li>
+                
+                  <li><a href="/category/91105">多线程与并发编程 (22)</a></li>
+                
+                  <li><a href="/category/91104">算法和数据结构 (8)</a></li>
+                
+                  <li><a href="/category/91106">缓存 (0)</a></li>
+                
+                  <li><a href="/category/96770">HttpClient (2)</a></li>
+                
+                  <li><a href="/category/96812">疑难杂症 (11)</a></li>
+                
+                  <li><a href="/category/97494">Java内存管理 (17)</a></li>
+                
+                  <li><a href="/category/97514">分布式开发 (14)</a></li>
+                
+                  <li><a href="/category/98367">Linux常用命令 (6)</a></li>
+                
+                  <li><a href="/category/98368">OSGI (0)</a></li>
+                
+                  <li><a href="/category/98369">UML (1)</a></li>
+                
+                  <li><a href="/category/98371">趣味面试题 (5)</a></li>
+                
+                  <li><a href="/category/98375">设计模式 (8)</a></li>
+                
+                  <li><a href="/category/98478">Java类加载 (2)</a></li>
+                
+                  <li><a href="/category/98946">JSTL (1)</a></li>
+                
+                  <li><a href="/category/101334">Web 服务器 (4)</a></li>
+                
+                  <li><a href="/category/101879">IT人生 (3)</a></li>
+                
+                  <li><a href="/category/105012">Java基础 (9)</a></li>
+                
+                  <li><a href="/category/115725">Flash技术 (7)</a></li>
+                
+                  <li><a href="/category/130927">新知识 (3)</a></li>
+                
+                  <li><a href="/category/133495">常用速备速查 (4)</a></li>
+                
+                  <li><a href="/category/139199"> 版本控制 (1)</a></li>
+                
+                  <li><a href="/category/150326">Java集合工具类 (6)</a></li>
+                
+                  <li><a href="/category/153471">web前端技术 (1)</a></li>
+                
+                  <li><a href="/category/153883">趣味话题 (1)</a></li>
+                
+                  <li><a href="/category/153947">安全 (0)</a></li>
+                
+                  <li><a href="/category/154675">架构设计 (3)</a></li>
+                
+                  <li><a href="/category/155588">Spring (4)</a></li>
+                
+                  <li><a href="/category/155971">负载均衡技术 (2)</a></li>
+                
+                  <li><a href="/category/155974">持久层技术 (2)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      String a = &quot;abc&quot;;在编译期能够确定的常量，也是 ...<br/>
+                      -- by <a href="/blog/guest_book#38940">tomyz0223</a>
+                    </li>
+                  
+                    <li>
+                      我想问一下  String str1 = &quot;abc&quot;; 到底是 ...<br/>
+                      -- by <a href="/blog/guest_book#38794">chenhetong</a>
+                    </li>
+                  
+                    <li>
+                      有问题请教。。。 我邮箱zhanggong881023@qq.com  如果同意给 ...<br/>
+                      -- by <a href="/blog/guest_book#29012">McQsad</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                <li><a href="/blog/code_favorite">我的代码</a> (0)</li>
+                                                <li><a href="/blog/topic">我的论坛主题帖</a> (5)</li>
+                <li><a href="/blog/post">我的所有论坛帖</a> (3)</li>
+                <li><a href="/blog/article">我的精华良好帖</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入群组</h5>
+              <ul>
+                
+                  <li><a href="http://hangzhou.group.iteye.com">杭州javaeyer</a></li>
+                
+              </ul>
+            </div>
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2011-05">2011-05</a> (35)</li>
+                  
+                    <li><a href="/blog/monthblog/2011-04">2011-04</a> (18)</li>
+                  
+                    <li><a href="/blog/monthblog/2011-03">2011-03</a> (7)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/684252" title="Tomcat 开发Comet实例">Tomcat 开发Comet实例</a></li>
+                
+                  <li><a href="/blog/770075" title="Comet技术在集群环境下的问题">Comet技术在集群环境下的问题</a></li>
+                
+                  <li><a href="/blog/806742" title="基于Red 5的桌面共享系统的性能优化-综述篇">基于Red 5的桌面共享系统的性能优化-综述 ...</a></li>
+                
+                  <li><a href="/blog/895073" title="Screen Video V1 Codec  Format (SVC1) 和Screen Video V2 Codec Format(SVC2)">Screen Video V1 Codec  Format (SVC1) 和 ...</a></li>
+                
+                  <li><a href="/blog/770677" title="硬件同步原语（CAS）理论">硬件同步原语（CAS）理论</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.iteye.com/images/rss.png?1299226978" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://tomyz0223.iteye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.iteye.com/images/rss_google.gif?1299226978" /></a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2011 ITeye.com.   All rights reserved.  [ 京ICP证110151号 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script>
+
+    
+  </body>
+</html>

@@ -1,0 +1,24 @@
+#MyEclipse Hibernate Properties
+#Tue Jul 12 11:24:32 CST 2011
+sessionFactoryName=com.tadosoft.krowdit.po.HibernateSessionFactory
+genBasicCompId=true
+profile=
+daoSFId=sessionFactory
+version=3.3
+jndiPath=
+detectM2M=false
+reStrategyClass=
+detectO2O=false
+springDaoFile=src/applicationContext.xml
+useJavaTypes=false
+keyGenerator=increment
+libInstallFolder=WebRoot/WEB-INF/lib
+addLibs2Project=true
+genVersionTag=false
+sessionFactoryId=
+basePersistenceClass=
+genAnnotations=false
+reSettingsFile=/KrowditServer/hibernate.reveng.xml
+configFile=/KrowditServer/src/hibernate.cfg.xml
+createConfigFile=true
+addLibs2Classpath=true

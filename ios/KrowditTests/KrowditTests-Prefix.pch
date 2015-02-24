@@ -1,0 +1,17 @@
+//
+// Prefix header for all source files of the 'KrowditTests' target in the 'KrowditTests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+
+#endif
+
+#import "EC.h"
+#import "UserType.h"
+
+#ifdef DEBUG
+#    define DLog(s, ...) NSLog( @"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
+#else
+#    define DLog(log, ...)
+#endif

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ <context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:applicationContext.xml</param-value>
+ </context-param>
+ <listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>com.tadosoft.krowdit.loop.EmptyKrowdDetectorListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>com.tadosoft.krowdit.loop.OnlineUserManagerListener</listener-class>
+ </listener>
+ <listener>
+  <listener-class>com.tadosoft.krowdit.loop.EmailSendingQueueListener</listener-class>
+ </listener>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>Login</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.Login</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>Signup</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.Signup</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>RecoverPassword</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.RecoverPassword</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>ListKrowds</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.ListKrowds</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>JoinKrowd</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.JoinKrowd</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>GetAlbum</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.GetAlbum</servlet-class>
+ </servlet>
+ <servlet>
+  <description>This is the description of my J2EE component</description>
+  <display-name>This is the display name of my J2EE component</display-name>
+  <servlet-name>PostImage</servlet-name>
+  <servlet-class>com.tadosoft.krowdit.servlet.PostImage</servlet-class>
+ </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListLocations</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.ListLocations</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListKrowdTypes</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.ListKrowdTypes</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListTeams</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.ListTeams</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CreateKrowd</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.CreateKrowd</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CreateLocation</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.CreateLocation</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.tadosoft.krowdit.servlet.Logout</servlet-class>
+  </servlet>
+
+
+
+
+
+
+ <servlet-mapping>
+  <servlet-name>Login</servlet-name>
+  <url-pattern>/servlet/Login</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>Signup</servlet-name>
+  <url-pattern>/servlet/Signup</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>RecoverPassword</servlet-name>
+  <url-pattern>/servlet/RecoverPassword</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>ListKrowds</servlet-name>
+  <url-pattern>/servlet/ListKrowds</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>JoinKrowd</servlet-name>
+  <url-pattern>/servlet/JoinKrowd</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>GetAlbum</servlet-name>
+  <url-pattern>/servlet/GetAlbum</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>PostImage</servlet-name>
+  <url-pattern>/servlet/PostImage</url-pattern>
+ </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListLocations</servlet-name>
+    <url-pattern>/servlet/ListLocations</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListKrowdTypes</servlet-name>
+    <url-pattern>/servlet/ListKrowdTypes</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListTeams</servlet-name>
+    <url-pattern>/servlet/ListTeams</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CreateKrowd</servlet-name>
+    <url-pattern>/servlet/CreateKrowd</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CreateLocation</servlet-name>
+    <url-pattern>/servlet/CreateLocation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/servlet/Logout</url-pattern>
+  </servlet-mapping>
+ <welcome-file-list>
+  <welcome-file>index.jsp</welcome-file>
+ </welcome-file-list>
+ <login-config>
+  <auth-method>BASIC</auth-method>
+ </login-config>
+</web-app>
